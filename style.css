@@ -21,13 +21,54 @@ body {
 h1 {
   font-size: 34px;
   font-weight: 800;
-  background: linear-gradient(90deg, #ff9933, #138808);
+  background: linear-gradient(90deg, #ff9933, #ffffff, #138808);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-align: center;
+  margin-top: 50px;
 }
 
 p {
-  color: #66716a;
+  text-align: center;
+  color: #777;
+  margin: 12px 0;
+}
+
+.welcome {
+  text-align: center;
+  margin-top: 35px;
+}
+
+.auth-box {
+  margin-top: 35px;
+  padding: 25px;
+  border: 1px solid #eee;
+  border-radius: 18px;
+  box-shadow: 0 5px 20px #0000000d;
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
   margin-top: 12px;
-  line-height: 1.6;
+  border: none;
+  border-radius: 10px;
+  background: #138808;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
 }
