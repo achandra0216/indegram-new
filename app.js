@@ -79,10 +79,42 @@ switchBtn.addEventListener("click", () => {
   }
 });
 
-document.getElementById("authForm").addEventListener("submit", (event) => {
+document.getElementById("authForm").addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  alert(
-    "INDEGRAM account system will be connected with Supabase in the next step."
-  );
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const button = document.getElementById("submitBtn");
+
+  button.disabled = true;
+  button.textContent = "Please wait...";
+
+  try {
+    let result;
+
+    if (isLogin) {
+      result = await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+    } else {
+      result = await supabaseClient.auth.signUp({
+        email,
+        password
+      });
+    }
+
+    if (result.error) {
+      alert(result.error.message);
+    } else if (isLogin) {
+      alert("Welcome back to INDEGRAM!");
+    } else {
+      alert("Account created! Please verify your email.");
+    }
+  } catch (error) {
+    alert("Something went wrong. Please try again.");
+  }
+
+  button.disabled = false;
+  button.textContent = isLogin ? "Log In" : "Create Account";
 });
