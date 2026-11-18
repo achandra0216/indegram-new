@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f8faf9;
+  color: #202820;
+}
+
+#app {
+  max-width: 480px;
+  margin: auto;
+  min-height: 100vh;
+  background: white;
+  padding: 25px;
+}
+
+h1 {
+  font-size: 34px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #ff9933, #138808);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+p {
+  color: #66716a;
+  margin-top: 12px;
+  line-height: 1.6;
+}
