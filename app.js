@@ -12,8 +12,10 @@ app.innerHTML = `
 
     <div class="auth-box">
       <h3>Join the community</h3>
-      <input type="email" placeholder="Email address">
-      <input type="password" placeholder="Password">
+
+      <input type="email" id="email" placeholder="Email address">
+
+      <input type="password" id="password" placeholder="Password">
 
       <button id="loginBtn">Log In</button>
       <button id="signupBtn">Create Account</button>
@@ -22,9 +24,9 @@ app.innerHTML = `
 `;
 
 document.getElementById("loginBtn").addEventListener("click", () => {
-  alert("Login system will be connected soon!");
+  alert("Login system will be connected to Supabase soon!");
 });
 
 document.getElementById("signupBtn").addEventListener("click", () => {
-  alert("Signup system will be connected soon!");
+  alert("Signup system will be connected to Supabase soon!");
 });
