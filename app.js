@@ -121,7 +121,7 @@ async function showHome() {
 
   document.getElementById("upload").onclick = uploadPost;
   document.getElementById("logout").onclick = logout;
-
+document.getElementById("saveProfile").onclick = saveProfile;
   await loadPosts();
 }
 async function loadProfile() {
