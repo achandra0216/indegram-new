@@ -176,13 +176,38 @@ function escapeHTML(value) {
 }
 
 async function likePost(postId) {
-  const { error } = await db.from("likes").insert({
-    post_id: postId,
-    user_id: currentUser.id
-  });
+  const { data: existingLike, error: checkError } = await db
+    .from("likes")
+    .select("*")
+    .eq("post_id", postId)
+    .eq("user_id", currentUser.id)
+    .maybeSingle();
 
-  if (error) alert(error.message);
-  else alert("Liked!");
+  if (checkError) {
+    alert(checkError.message);
+    return;
+  }
+
+  if (existingLike) {
+    const { error } = await db
+      .from("likes")
+      .delete()
+      .eq("post_id", postId)
+      .eq("user_id", currentUser.id);
+
+    if (error) alert(error.message);
+    else alert("Unliked!");
+  } else {
+    const { error } = await db
+      .from("likes")
+      .insert({
+        post_id: postId,
+        user_id: currentUser.id
+      });
+
+    if (error) alert(error.message);
+    else alert("Liked!");
+  }
 }
 
 async function commentPost(postId) {
