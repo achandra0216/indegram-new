@@ -155,6 +155,7 @@ async function loadProfile() {
 }
 
 async function saveProfile() {
+  alert("Save button is working!");
   const fullName = document.getElementById("fullName").value.trim();
   const username = document.getElementById("username").value.trim();
   const bio = document.getElementById("bio").value.trim();
