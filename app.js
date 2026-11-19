@@ -87,7 +87,35 @@ async function showHome() {
       <h2>Home Feed</h2>
       <div id="feed">Loading posts...</div>
     </section>
+<section class="auth-box" id="profileSection">
+  <h2>My Profile</h2>
 
+  <div style="text-align:center;">
+    <img id="profileAvatar"
+      src="https://placehold.co/120x120?text=Profile"
+      style="width:120px;height:120px;border-radius:50%;object-fit:cover;">
+
+    <h3 id="profileName">Your Name</h3>
+    <p id="profileUsername">@username</p>
+    <p id="profileBio">Welcome to my INDEGRAM profile!</p>
+  </div>
+
+  <input type="file" id="avatarInput" accept="image/*">
+  <input type="text" id="fullName" placeholder="Full Name">
+  <input type="text" id="username" placeholder="Username">
+  <textarea id="bio" placeholder="Write your bio"></textarea>
+
+  <div style="display:flex;justify-content:space-around;padding:15px;">
+    <span><b id="postCount">0</b> Posts</span>
+    <span><b id="followerCount">0</b> Followers</span>
+    <span><b id="followingCount">0</b> Following</span>
+  </div>
+
+  <button id="saveProfile">Save Profile</button>
+
+  <h3>My Posts</h3>
+  <div id="myPostGrid"></div>
+</section>
     <button id="logout">Log Out</button>
   `;
 
@@ -96,7 +124,58 @@ async function showHome() {
 
   await loadPosts();
 }
+async function loadProfile() {
+  const { data, error } = await db
+    .from("profiles")
+    .select("*")
+    .eq("id", currentUser.id)
+    .single();
 
+  if (error) {
+    console.log(error.message);
+    return;
+  }
+
+  document.getElementById("profileName").textContent =
+    data.full_name || "Your Name";
+
+  document.getElementById("profileUsername").textContent =
+    "@" + (data.username || "username");
+
+  document.getElementById("profileBio").textContent =
+    data.bio || "Welcome to INDEGRAM";
+
+  if (data.avatar_url) {
+    document.getElementById("profileAvatar").src = data.avatar_url;
+  }
+
+  document.getElementById("fullName").value = data.full_name || "";
+  document.getElementById("username").value = data.username || "";
+  document.getElementById("bio").value = data.bio || "";
+}
+
+async function saveProfile() {
+  const fullName = document.getElementById("fullName").value.trim();
+  const username = document.getElementById("username").value.trim();
+  const bio = document.getElementById("bio").value.trim();
+
+  const { error } = await db
+    .from("profiles")
+    .update({
+      full_name: fullName,
+      username: username,
+      bio: bio
+    })
+    .eq("id", currentUser.id);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  alert("Profile updated successfully!");
+  await loadProfile();
+}
 async function uploadPost() {
   const file = document.getElementById("photo").files[0];
   const caption = document.getElementById("caption").value;
