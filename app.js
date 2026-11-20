@@ -217,6 +217,7 @@ async function uploadPost() {
 
   alert("Your photo has been posted!");
   await loadPosts();
+await loadProfile();
 }
 
 async function loadPosts() {
