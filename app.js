@@ -133,7 +133,7 @@ async function loadProfile() {
     .single();
 
   if (error) {
-    console.log(error.message);
+    alert(error.message);
     return;
   }
 
