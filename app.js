@@ -123,6 +123,7 @@ async function showHome() {
   document.getElementById("logout").onclick = logout;
 document.getElementById("saveProfile").onclick = saveProfile;
   await loadPosts();
+  await loadPosts();
 }
 async function loadProfile() {
   const { data, error } = await db
