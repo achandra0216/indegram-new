@@ -156,24 +156,50 @@ async function loadProfile() {
 }
 
 async function saveProfile() {
-  
   const fullName = document.getElementById("fullName").value.trim();
-  const username = document.getElementById("username").value.trim();
+  const username = document.getElementById("username").value.trim().replace(/^@/, "");
   const bio = document.getElementById("bio").value.trim();
+  const avatarFile = document.getElementById("avatarInput").files[0];
 
-  const { error } = await db
-  .from("profiles")
-  .upsert({
+  let avatarUrl = null;
+
+  if (avatarFile) {
+    const extension = avatarFile.name.split(".").pop();
+    const filePath = `avatars/${currentUser.id}/${Date.now()}.${extension}`;
+
+    const { error: uploadError } = await db.storage
+      .from("post-images")
+      .upload(filePath, avatarFile);
+
+    if (uploadError) {
+      alert("Photo upload failed: " + uploadError.message);
+      return;
+    }
+
+    const { data: imageData } = db.storage
+      .from("post-images")
+      .getPublicUrl(filePath);
+
+    avatarUrl = imageData.publicUrl;
+  }
+
+  const profileData = {
     id: currentUser.id,
     full_name: fullName,
     username: username,
     bio: bio
-  }, {
-    onConflict: "id"
-  });
+  };
+
+  if (avatarUrl) {
+    profileData.avatar_url = avatarUrl;
+  }
+
+  const { error } = await db
+    .from("profiles")
+    .upsert(profileData, { onConflict: "id" });
 
   if (error) {
-    alert(error.message);
+    alert("Profile save failed: " + error.message);
     return;
   }
 
