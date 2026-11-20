@@ -162,13 +162,15 @@ async function saveProfile() {
   const bio = document.getElementById("bio").value.trim();
 
   const { error } = await db
-    .from("profiles")
-    .update({
-      full_name: fullName,
-      username: username,
-      bio: bio
-    })
-    .eq("id", currentUser.id);
+  .from("profiles")
+  .upsert({
+    id: currentUser.id,
+    full_name: fullName,
+    username: username,
+    bio: bio
+  }, {
+    onConflict: "id"
+  });
 
   if (error) {
     alert(error.message);
